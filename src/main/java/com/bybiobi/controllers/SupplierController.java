@@ -1,6 +1,7 @@
 package com.bybiobi.controllers;
 
 import com.bybiobi.dto.ResponseData;
+import com.bybiobi.dto.SearchData;
 import com.bybiobi.dto.SupplierData;
 import com.bybiobi.models.entities.Supplier;
 import com.bybiobi.services.SupplierService;
@@ -13,6 +14,7 @@ import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/suppliers")
@@ -74,5 +76,25 @@ public class SupplierController {
         responseData.setStatus(true);
         responseData.setPayload(supplierService.save(supplier));
         return ResponseEntity.ok(responseData);
+    }
+
+    @PostMapping("/search/byemail")
+    public Supplier findByEmail(@RequestBody SearchData searchData) {
+        return supplierService.findByEmail(searchData.getSearchKey());
+    }
+
+    @PostMapping("/search/byname")
+    public List<Supplier> findByName(@RequestBody SearchData searchData) {
+        return supplierService.findByName(searchData.getSearchKey());
+    }
+
+    @PostMapping("/search/bynamestartwith")
+    public List<Supplier> findByNameStartWith(@RequestBody SearchData searchData) {
+        return supplierService.findByNameStartWith(searchData.getSearchKey());
+    }
+
+    @PostMapping("/search/bynameoremail")
+    public List<Supplier> findByNameOrEmail(@RequestBody SearchData searchData) {
+        return supplierService.findByNameOrEmail(searchData.getSearchKey(), searchData.getOtherSearchKey());
     }
 }
