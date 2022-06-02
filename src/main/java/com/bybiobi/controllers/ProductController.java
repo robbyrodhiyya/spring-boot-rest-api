@@ -1,6 +1,7 @@
 package com.bybiobi.controllers;
 
 import com.bybiobi.dto.ResponseData;
+import com.bybiobi.dto.SearchData;
 import com.bybiobi.models.entities.Product;
 import com.bybiobi.models.entities.Supplier;
 import com.bybiobi.services.ProductService;
@@ -12,6 +13,7 @@ import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 @RequestMapping("api/products")
@@ -73,5 +75,20 @@ public class ProductController {
     @PostMapping("/{id}")
     public void addSupplier(@RequestBody Supplier supplier, @PathVariable("id") Long productId) {
         productService.addSupplier(supplier, productId);
+    }
+
+    @PostMapping("/search/name")
+    public Product getProductByName(@RequestBody SearchData searchData) {
+        return productService.findByProductName(searchData.getSearchKey());
+    }
+
+    @PostMapping("/search/name/like")
+    public List<Product> getProductByNameLike(@RequestBody SearchData searchData) {
+        return productService.findByProductNameLike(searchData.getSearchKey());
+    }
+
+    @GetMapping("/search/supplier/{supplierId}")
+    public List<Product> getProductBySupplier(@PathVariable("supplierId") Long supplierId) {
+        return productService.findBySupplier(supplierId);
     }
 }

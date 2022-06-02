@@ -11,10 +11,10 @@ import java.util.Set;
 
 @Entity
 @Table(name = "tbl_product")
-@JsonIdentityInfo(
-        generator = ObjectIdGenerators.PropertyGenerator.class,
-        property = "id"
-)
+//@JsonIdentityInfo(
+//        generator = ObjectIdGenerators.PropertyGenerator.class,
+//        property = "id"
+//)
 public class Product implements Serializable {
 
     private static final long serialVersionID = 1L;
@@ -42,7 +42,7 @@ public class Product implements Serializable {
             joinColumns = @JoinColumn(name = "product_id"),
             inverseJoinColumns = @JoinColumn(name = "supplier_id")
     )
-//    @JsonManagedReference
+    @JsonManagedReference
     private Set<Supplier> suppliers;
 
     public Product() {
