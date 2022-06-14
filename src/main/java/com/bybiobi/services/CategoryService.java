@@ -3,6 +3,7 @@ package com.bybiobi.services;
 import com.bybiobi.models.entities.Category;
 import com.bybiobi.models.repos.CategoryRepo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -33,5 +34,13 @@ public class CategoryService {
 
     public void removeOne(Long id) {
         categoryRepo.deleteById(id);
+    }
+
+    public Iterable<Category> findByName(String name, Pageable pageable) {
+        return categoryRepo.findByNameContains(name, pageable);
+    }
+
+    public Iterable<Category> saveBatch(Iterable<Category> categories) {
+        return categoryRepo.saveAll(categories);
     }
 }
